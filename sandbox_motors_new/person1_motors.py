@@ -12,7 +12,7 @@ Authors: David Fisher, David Mutchler and Jonah Yates.
 import ev3dev.ev3 as ev3
 import time
 
-def main()
+def main():
     test_forward_backward()
 
 def test_forward_backward():
