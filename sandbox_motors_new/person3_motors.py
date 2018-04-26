@@ -158,7 +158,7 @@ def turn_left_by_time(degrees, speed, stop_action):
       2. Sleep for the computed number of seconds.
       3. Stop moving.
     """
-    seconds = degrees / speed
+    seconds = (degrees*10) / speed
     left_motor.run_forever(speed_sp=speed)
     time.sleep(abs(seconds))
     left_motor.stop(stop_action=stop_action)
@@ -172,7 +172,7 @@ def turn_left_by_encoders(degrees, speed, stop_action):
       1. Compute the number of degrees the wheels should turn to achieve the desired distance.
       2. Move until the computed number of degrees is reached.
     """
-    left_motor.run_to_rel_pos(position_sp=degrees, speed_sp=speed, stop_action=stop_action)
+    left_motor.run_to_rel_pos(position_sp=(degrees*10), speed_sp=speed, stop_action=stop_action)
 
 
 def turn_right_seconds(seconds, speed, stop_action):
@@ -198,3 +198,4 @@ right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
 assert left_motor.connected
 assert right_motor.connected
 test_turn_left_turn_right()
+
