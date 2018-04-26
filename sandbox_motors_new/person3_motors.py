@@ -194,7 +194,7 @@ def turn_right_by_encoders(degrees, speed, stop_action):
 left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
 right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
 
-# Check that the motors are actually connected
+# Check that the motors are actually conected
 assert left_motor.connected
 assert right_motor.connected
 test_turn_left_turn_right()
