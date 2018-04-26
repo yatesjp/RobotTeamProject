@@ -37,8 +37,8 @@ def test_forward_backward():
         if travtime == 0:
             print('See ya later!')
             break
-        speed = int(input("Enter a speed for the motors (0 to 900 dps): "))
-        stopping = input("Enter a stop action for the motors (0 to 900 dps): ")
+        speed = int(input("Enter a speed for the motors (0 to 100%): "))
+        stopping = input("Enter a stop action for the motors: ")
 
         forward_seconds(travtime, speed, stopping)
 
@@ -77,6 +77,23 @@ def forward_by_time(inches, speed, stop_action):
       2. Sleep for the computed number of seconds.
       3. Stop moving.
     """
+
+    speed = speed * 8
+    time = inches / 49 * 4000 / speed
+
+    # Connect two large motors on output ports B and C
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+
+    # Check that the motors are actually connected
+    assert left_motor.connected
+    assert right_motor.connected
+
+    left_motor.run_forever(speed_sp=speed)
+    right_motor.run_forever(speed_sp=speed)
+    time.sleep(time)
+    left_motor.stop()
+    right_motor.stop(stop_action=stop_action)
 
 
 def forward_by_encoders(inches, speed, stop_action):
