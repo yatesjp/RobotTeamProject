@@ -54,6 +54,8 @@ def spin_left_seconds(seconds, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
+    speed = 8 * speed
+
     left_motor.run_forever(speed_sp=speed)
     right_motor.run_forever(speed_sp=-speed)
     time.sleep(seconds)
