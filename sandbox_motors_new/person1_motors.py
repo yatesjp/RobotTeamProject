@@ -85,6 +85,7 @@ def forward_by_time(inches, speed, stop_action):
     left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
     right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
 
+
     # Check that the motors are actually connected
     assert left_motor.connected
     assert right_motor.connected
