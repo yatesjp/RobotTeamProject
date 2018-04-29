@@ -3,7 +3,7 @@ Functions for SPINNING the robot LEFT and RIGHT.
 Authors: David Fisher, David Mutchler and Tianlin Wang.
 """  # Done: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
-# TODO: 2. Implment spin_left_seconds, then the relevant part of the test function.
+# Done: 2. Implment spin_left_seconds, then the relevant part of the test function.
 #          Test and correct as needed.
 #   Then repeat for spin_left_by_time.
 #   Then repeat for spin_left_by_encoders.
@@ -31,14 +31,106 @@ def test_spin_left_spin_right():
     ev3.Sound.speak("Drive using input").wait()
 
     while True:
-        travtime = int(input("Enter a time to drive (seconds): "))
-        if travtime == 0:
-            print('See ya later!')
-            break
-        speed = int(input("Enter a speed for the motors (0 to 900 dps): "))
-        stopping = input("Enter a stop action for the motors (0 to 900 dps): ")
+        while True:
+            traveltime = int(input("Enter a time to drive (seconds): "))
+            speed = int(input("Enter a speed for the motors (-100 to 100): "))
+            stopping = input("Enter a stop action for the motors from brake, coast or hold : ")
+            if speed > 0 and traveltime > 0:
+                if stopping == "brake":
+                    break
+                if stopping == "coast":
+                    break
+                if stopping == "hold":
+                    break
+            if speed == 0 or traveltime == 0:
+                break
+            print("One or more of the inputs you gave was invalid, please choose valid inputs.")
+        spin_left_seconds(traveltime, speed, stopping)
 
-        spin_left_seconds(travtime, speed, stopping)
+    while True:
+        while True:
+            degrees = int(input("Input a number of degrees greater than 0"))
+            speed = int(input("Enter a speed for the motors (-100 to 100): "))
+            stopping = input("Enter a stop action for the motors from brake, coast or hold : ")
+            if speed > 0 and degrees > 0:
+                if stopping == "brake":
+                    break
+                if stopping == "coast":
+                    break
+                if stopping == "hold":
+                    break
+            if speed == 0 or degrees == 0:
+                break
+            print("One or more of the inputs you gave was invalid, please choose valid inputs.")
+        spin_left_by_time(degrees, speed, stopping)
+
+    while True:
+        while True:
+            degrees = int(input("Input a number of degrees greater than 0"))
+            speed = int(input("Enter a speed for the motors (-100 to 100): "))
+            stopping = input("Enter a stop action for the motors from brake, coast or hold : ")
+            if speed > 0 and degrees > 0:
+                if stopping == "brake":
+                    break
+                if stopping == "coast":
+                    break
+                if stopping == "hold":
+                    break
+            if speed == 0 or degrees == 0:
+                break
+            print("One or more of the inputs you gave was invalid, please choose valid inputs.")
+        spin_left_by_encoders(degrees, speed, stopping)
+
+    while True:
+        while True:
+            traveltime = int(input("Enter a time to drive (seconds): "))
+            speed = int(input("Enter a speed for the motors (-100 to 100): "))
+            stopping = input("Enter a stop action for the motors from brake, coast or hold : ")
+            if speed > 0 and traveltime > 0:
+                if stopping == "brake":
+                    break
+                if stopping == "coast":
+                    break
+                if stopping == "hold":
+                    break
+            if speed == 0 or traveltime == 0:
+                break
+            print("One or more of the inputs you gave was invalid, please choose valid inputs.")
+        spin_right_seconds(traveltime, speed, stopping)
+
+    while True:
+        while True:
+            degrees = int(input("Input a number of degrees greater than 0"))
+            speed = int(input("Enter a speed for the motors (-100 to 100): "))
+            stopping = input("Enter a stop action for the motors from brake, coast or hold : ")
+            if speed > 0 and degrees > 0:
+                if stopping == "brake":
+                    break
+                if stopping == "coast":
+                    break
+                if stopping == "hold":
+                    break
+            if speed == 0 or degrees == 0:
+                break
+            print("One or more of the inputs you gave was invalid, please choose valid inputs.")
+        spin_right_by_time(degrees, speed, stopping)
+
+    while True:
+        while True:
+            degrees = int(input("Input a number of degrees greater than 0"))
+            speed = int(input("Enter a speed for the motors (-100 to 100): "))
+            stopping = input("Enter a stop action for the motors from brake, coast or hold : ")
+            if speed > 0 and degrees > 0:
+                if stopping == "brake":
+                    break
+                if stopping == "coast":
+                    break
+                if stopping == "hold":
+                    break
+            if speed == 0 or degrees == 0:
+                break
+            print("One or more of the inputs you gave was invalid, please choose valid inputs.")
+        spin_right_by_encoders(degrees, speed, stopping)
 
 
 def spin_left_seconds(seconds, speed, stop_action):
@@ -48,14 +140,7 @@ def spin_left_seconds(seconds, speed, stop_action):
     Uses the given stop_action.
     """
 
-    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
-    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-
-    assert left_motor.connected
-    assert right_motor.connected
-
     speed = 8 * speed
-
     left_motor.run_forever(speed_sp=speed)
     right_motor.run_forever(speed_sp=-speed)
     time.sleep(seconds)
@@ -74,6 +159,14 @@ def spin_left_by_time(degrees, speed, stop_action):
       3. Stop moving.
     """
 
+    seconds = (degrees/90)*(abs(speed)/50)*1.8
+
+    speed = 8 * speed
+    right_motor.run_forever(speed_sp=-speed)
+    time.sleep(seconds)
+    left_motor.stop()
+    right_motor.stop(stop_action=stop_action)
+
 
 def spin_left_by_encoders(degrees, speed, stop_action):
     """
@@ -83,18 +176,33 @@ def spin_left_by_encoders(degrees, speed, stop_action):
       1. Compute the number of degrees the wheels should spin to achieve the desired distance.
       2. Move until the computed number of degrees is reached.
     """
+    seconds = (degrees / 90) * (abs(speed) / 50) * 1.8
+    left_motor.run_to_rel_pos(position_sp=seconds, speed_sp=speed, stop_action=stop_action)
+    right_motor.run_to_rel_pos(position_sp=seconds, speed_sp=-speed, stop_action=stop_action)
 
 
 def spin_right_seconds(seconds, speed, stop_action):
     """ Calls spin_left_seconds with negative speeds to achieve spin_right motion. """
+    real_speed = -int(speed)
+    spin_left_seconds(seconds, real_speed, stop_action)
 
 
 def spin_right_by_time(degrees, speed, stop_action):
     """ Calls spin_left_by_time with negative speeds to achieve spin_right motion. """
+    real_speed = -int(speed)
+    spin_left_by_time(degrees, real_speed, stop_action)
 
 
 def spin_right_by_encoders(degrees, speed, stop_action):
     """ Calls spin_left_by_encoders with negative speeds to achieve spin_right motion. """
+    real_speed = -int(speed)
+    spin_left_by_encoders(degrees, real_speed, stop_action)
 
+
+left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+
+assert left_motor.connected
+assert right_motor.connected
 
 test_spin_left_spin_right()
