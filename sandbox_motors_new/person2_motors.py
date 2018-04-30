@@ -176,9 +176,8 @@ def spin_left_by_encoders(degrees, speed, stop_action):
       1. Compute the number of degrees the wheels should spin to achieve the desired distance.
       2. Move until the computed number of degrees is reached.
     """
-    seconds = degrees/(abs(speed)*1.8)
-    left_motor.run_to_rel_pos(position_sp=seconds, speed_sp=speed, stop_action=stop_action)
-    right_motor.run_to_rel_pos(position_sp=seconds, speed_sp=-speed, stop_action=stop_action)
+    left_motor.run_to_rel_pos(position_sp=degrees, speed_sp=speed, stop_action=stop_action)
+    right_motor.run_to_rel_pos(position_sp=degrees, speed_sp=-speed, stop_action=stop_action)
 
 
 def spin_right_seconds(seconds, speed, stop_action):
