@@ -159,7 +159,7 @@ def spin_left_by_time(degrees, speed, stop_action):
       3. Stop moving.
     """
 
-    seconds = (degrees/90)*(abs(speed)/50)*1.8
+    seconds = degrees/(abs(speed)*1.8)
 
     speed = 8 * speed
     right_motor.run_forever(speed_sp=-speed)
@@ -176,7 +176,7 @@ def spin_left_by_encoders(degrees, speed, stop_action):
       1. Compute the number of degrees the wheels should spin to achieve the desired distance.
       2. Move until the computed number of degrees is reached.
     """
-    seconds = (degrees / 90) * (abs(speed) / 50) * 1.8
+    seconds = degrees/(abs(speed)*1.8)
     left_motor.run_to_rel_pos(position_sp=seconds, speed_sp=speed, stop_action=stop_action)
     right_motor.run_to_rel_pos(position_sp=seconds, speed_sp=-speed, stop_action=stop_action)
 
