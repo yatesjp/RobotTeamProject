@@ -116,7 +116,7 @@ def forward_by_encoders(inches, speed, stop_action):
     # Check that the motors are actually connected
     assert left_motor.connected
     assert right_motor.connected
-    
+
     left_motor.run_to_rel_pos(speed_sp=speed, position_sp = degreestobemoved, 'brake')
     right_motor.run_to_rel_pos(speed_sp=speed, position_sp = degreestobemoved, 'brake')
     time.sleep(time)
