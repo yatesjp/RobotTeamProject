@@ -30,7 +30,7 @@ def test_spin_left_spin_right():
     """
     ev3.Sound.speak("Drive using input").wait()
 
-
+    print('test spin_left_seconds')
     while True:
         traveltime = int(input("Enter a time to drive (seconds): "))
         speed = int(input("Enter a speed for the motors (-100 to 100): "))
@@ -47,6 +47,7 @@ def test_spin_left_spin_right():
         print("One or more of the inputs you gave was invalid, please choose valid inputs.")
     spin_left_seconds(traveltime, speed, stopping)
 
+    print('test spin_left_time')
     while True:
         degrees = int(input("Input a number of degrees greater than 0"))
         speed = int(input("Enter a speed for the motors (-100 to 100): "))
@@ -63,6 +64,7 @@ def test_spin_left_spin_right():
         print("One or more of the inputs you gave was invalid, please choose valid inputs.")
     spin_left_by_time(degrees, speed, stopping)
 
+    print('test spin_left_encoders')
     while True:
         degrees = int(input("Input a number of degrees greater than 0"))
         speed = int(input("Enter a speed for the motors (-100 to 100): "))
@@ -79,6 +81,7 @@ def test_spin_left_spin_right():
         print("One or more of the inputs you gave was invalid, please choose valid inputs.")
     spin_left_by_encoders(degrees, speed, stopping)
 
+    print('test spin_right_seconds')
     while True:
         traveltime = int(input("Enter a time to drive (seconds): "))
         speed = int(input("Enter a speed for the motors (-100 to 100): "))
@@ -95,6 +98,7 @@ def test_spin_left_spin_right():
         print("One or more of the inputs you gave was invalid, please choose valid inputs.")
     spin_right_seconds(traveltime, speed, stopping)
 
+    print('test spin_right_time')
     while True:
         degrees = int(input("Input a number of degrees greater than 0"))
         speed = int(input("Enter a speed for the motors (-100 to 100): "))
@@ -111,6 +115,7 @@ def test_spin_left_spin_right():
         print("One or more of the inputs you gave was invalid, please choose valid inputs.")
     spin_right_by_time(degrees, speed, stopping)
 
+    print('test spin_right_encoders')
     while True:
         degrees = int(input("Input a number of degrees greater than 0"))
         speed = int(input("Enter a speed for the motors (-100 to 100): "))
