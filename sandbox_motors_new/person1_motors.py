@@ -11,6 +11,7 @@ Authors: David Fisher, David Mutchler and Jonah Yates.
 
 import ev3dev.ev3 as ev3
 import time
+import math
 
 def main():
     test_forward_backward()
@@ -79,7 +80,7 @@ def forward_by_time(inches, speed, stop_action):
     """
 
     speed = speed * 8
-    time = inches / 49 * 4000 / speed
+    time = inches / 49 * 4000 / math.fabs(speed)
 
     # Connect two large motors on output ports B and C
     left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
@@ -106,17 +107,37 @@ def forward_by_encoders(inches, speed, stop_action):
       2. Move until the computed number of degrees is reached.
     """
 
+    degreestobemoved = inches / 49 * 1000
+
+    # Connect two large motors on output ports B and C
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+
+    # Check that the motors are actually connected
+    assert left_motor.connected
+    assert right_motor.connected
+    
+    left_motor.run_to_rel_pos(speed_sp=speed, position_sp = degreestobemoved, 'brake')
+    right_motor.run_to_rel_pos(speed_sp=speed, position_sp = degreestobemoved, 'brake')
+    time.sleep(time)
+    left_motor.stop()
+    right_motor.stop(stop_action=stop_action)
+
 
 def backward_seconds(seconds, speed, stop_action):
     """ Calls forward_seconds with negative speeds to achieve backward motion. """
 
+    forward_seconds(seconds, speed, stop_action)
 
 def backward_by_time(inches, speed, stop_action):
     """ Calls forward_by_time with negative speeds to achieve backward motion. """
 
+    forward_by_time(inches, speed, stop_action)
 
 def backward_by_encoders(inches, speed, stop_action):
     """ Calls forward_by_encoders with negative speeds to achieve backward motion. """
+
+    forward_by_encoders(inches, speed, stop_action)
 
 main()
 test_forward_backward()
