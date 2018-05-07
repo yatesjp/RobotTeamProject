@@ -184,9 +184,10 @@ def wait_for_up_button_press():
     #           Tests have been written for you (above).
     # -------------------------------------------------------------------------
     up_b = ev3.Button()
-    print(up_b.up)
+
     while True:
-        if up_b == 1:
+        print(up_b.up)
+        if up_b.up == 1:
             break
     time.sleep(0.05)
 
