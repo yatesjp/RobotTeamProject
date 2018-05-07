@@ -22,7 +22,7 @@ Authors: David Fisher, David Mutchler and Tianlin.
 #           - So, HELP EACH OTHER!
 #           - As you finish each TO-DO, check that your teammates are doing OK!
 #
-# change this TO-DO to DONE. 
+# change this TO-DO to DONE.
 # -----------------------------------------------------------------------------
 
 import ev3dev.ev3 as ev3
