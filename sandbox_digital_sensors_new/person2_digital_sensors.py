@@ -216,7 +216,19 @@ def show_leds():
        -- DOWN button:  Both LEDs turn off (i.e., to BLACK).
        -- BACKSPACE button: The program breaks out of the loop.
     """
-
+    a = ev3.Button()
+    while True:
+        if a.left == 1:
+            ev3.Leds.LEFT = ev3.Leds.GREEN
+        if a.right == 1:
+            ev3.Leds.RIGHT = ev3.Leds.RED
+        if a.up == 1:
+            ev3.Leds.LEFT = ev3.Leds.AMBER
+        if a.down == 1:
+            ev3.Leds.LEFT = ev3.Leds.BLACK
+            ev3.Leds.Right = ev3.Leds.BLACK
+        if a.backspace == 1:
+            break
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
