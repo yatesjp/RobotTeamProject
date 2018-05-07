@@ -203,7 +203,7 @@ def run_test_make_sounds():
     print()
     print('  ** CHANGE the channel to 3. **')
     print('Then press the IR Beacon buttons to make sounds.')
-    print()
+    print() 
 
 
 def make_sounds():
