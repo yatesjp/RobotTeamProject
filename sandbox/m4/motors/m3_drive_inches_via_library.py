@@ -55,7 +55,7 @@ def main():
         inches_target = int(input("Distance (inches): "))
         if inches_target == 0:
             break
-        
+
         robot.forward(inches_target, speed_deg_per_second)
         robot.backward(inches_target, speed_deg_per_second)
 
