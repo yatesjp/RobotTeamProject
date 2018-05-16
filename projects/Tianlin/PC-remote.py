@@ -72,7 +72,7 @@ def main():
 
     seek_button = ttk.Button(main_frame, text="Seek")
     seek_button.grid(row=7, column=2)
-    seek_button['command'] = (lambda: beaconseeker())
+    seek_button['command'] = (lambda: beaconseeker(mqtt_client, int(left_speed_entry.get())))
 
     #
     # seconds = current_heading/(speed*1.8)
@@ -123,9 +123,9 @@ def quit_program(mqtt_client, shutdown_ev3):
     exit()
 
 
-def beaconseeker(mqtt_client):
+def beaconseeker(mqtt_client, left_speed):
     print("find beacon")
-    mqtt_client.send_message("beaconseeker")
+    mqtt_client.send_message("beaconseeker", [left_speed])
 
 
 class PenData(object):

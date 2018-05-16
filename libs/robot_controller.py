@@ -28,14 +28,14 @@ class Snatch3r(object):
         assert self.left_motor.connected
         assert self.right_motor.connected
 
-    def forward(self, inches, speed=100, stop_action='brake'):
+    def forward(self, inches, speed, stop_action='brake'):
         degrees = inches * (360/4.2)
         self.left_motor.run_to_rel_pos(position_sp=degrees, speed_sp=speed*8, stop_action=stop_action)
         self.right_motor.run_to_rel_pos(position_sp=degrees, speed_sp=speed*8, stop_action=stop_action)
         self.left_motor.wait_while("running")
         self.right_motor.wait_while("running")
 
-    def backward(self, inches, speed=100, stop_action='brake'):
+    def backward(self, inches, speed, stop_action='brake'):
         degrees = inches * -(360/4.2)
         self.left_motor.run_to_rel_pos(position_sp=degrees, speed_sp=speed*8, stop_action=stop_action)
         self.right_motor.run_to_rel_pos(position_sp=degrees, speed_sp=speed*8, stop_action=stop_action)
@@ -66,7 +66,7 @@ class Snatch3r(object):
         time.sleep(5.01)
         arm_motor.stop(stop_action=ev3.Motor.STOP_ACTION_BRAKE)
 
-    def seekbeacon(self):
+    def seekbeacon(self, left_speed):
         print("--------------------------------------------")
         print(" Printing beacon seeking data")
         print("--------------------------------------------")
@@ -87,7 +87,7 @@ class Snatch3r(object):
                 self.turnright(current_heading)
             if current_heading < 0:
                 self.turnleft(current_heading)
-            self.forward(current_distance)
+            self.forward(current_distance, left_speed)
 
         print("Goodbye!")
         ev3.Sound.speak("Goodbye").wait()

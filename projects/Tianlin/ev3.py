@@ -54,8 +54,8 @@ class MyDelegate(object):
     def shutdown(self):
         self.robot.shutdown()
 
-    def beaconseeker(self):
-        self.robot.seekbeacon()
+    def beaconseeker(self, left_speed):
+        self.robot.seekbeacon(left_speed=left_speed)
 
     def loop_forever(self):
         self.running = True
