@@ -75,7 +75,7 @@ def main():
 def guess(mqtt_client, number_to_guess_entry):
     """ Calls a method on EV3 called 'guess' passing in an int from the number_to_guess_entry. """
     # TODO: 5. Uncomment the line of code below to make guesses with EV3.
-    # mqtt_client.send_message("guess", [int(number_to_guess_entry.get())])
+    mqtt_client.send_message("guess", [int(number_to_guess_entry.get())])
     number_to_guess_entry.delete(0, 'end')
     # Note: You can play the game with only TO DO 5 complete, but it will be easier to solve if you do TO DO 6 as well.
 
