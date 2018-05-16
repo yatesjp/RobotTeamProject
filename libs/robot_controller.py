@@ -27,6 +27,7 @@ class Snatch3r(object):
         self.beacon_seeker = ev3.BeaconSeeker(ev3.INPUT_4)
         assert self.left_motor.connected
         assert self.right_motor.connected
+        print('YES')
 
     def forward(self, inches, speed, stop_action='brake'):
         degrees = inches * (360/4.2)

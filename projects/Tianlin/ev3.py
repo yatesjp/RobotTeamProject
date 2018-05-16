@@ -5,6 +5,7 @@ import time
 
 
 def main():
+    print('run')
     my_delegate = MyDelegate()
     mqtt_client = com.MqttClient(my_delegate)
     my_delegate.mqtt_client = mqtt_client
@@ -17,6 +18,7 @@ class MyDelegate(object):
     def __init__(self):
         self.robot = robo.Snatch3r()
         self.mqtt_client = None  # To be set later.
+        print('YYY')
 
     def arm_up(self):
         print("Arm up")
@@ -55,6 +57,7 @@ class MyDelegate(object):
         self.robot.shutdown()
 
     def beaconseeker(self, left_speed):
+        print('YESYES')
         self.robot.seekbeacon(left_speed=left_speed)
 
     def loop_forever(self):
@@ -68,3 +71,5 @@ class MyDelegate(object):
         if self.mqtt_client:
             self.mqtt_client.close()
         self.robot.shutdown()
+
+main()
