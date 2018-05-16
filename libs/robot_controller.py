@@ -12,7 +12,6 @@
 """
 
 import ev3dev.ev3 as ev3
-import math
 import time
 
 
@@ -83,6 +82,12 @@ class Snatch3r(object):
             current_distance = self.beacon_seeker.distance
             print("IR Heading = {}   Distance = {}".format(current_heading, current_distance))
             time.sleep(0.5)
+
+            if current_heading > 0:
+                self.turnright(current_heading)
+            if current_heading < 0:
+                self.turnleft(current_heading)
+            self.forward(current_distance)
 
         print("Goodbye!")
         ev3.Sound.speak("Goodbye").wait()
