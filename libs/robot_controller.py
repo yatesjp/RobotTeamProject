@@ -83,11 +83,14 @@ class Snatch3r(object):
             print("IR Heading = {}   Distance = {}".format(current_heading, current_distance))
             time.sleep(0.5)
 
+            self.arm_up()
             if current_heading > 0:
                 self.turnright(current_heading)
             if current_heading < 0:
                 self.turnleft(current_heading)
             self.forward(current_distance, left_speed)
+            self.arm_down()
+            self.backward(current_distance,left_speed)
 
         print("Goodbye!")
         ev3.Sound.speak("Goodbye").wait()
