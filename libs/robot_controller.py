@@ -25,6 +25,7 @@ class Snatch3r(object):
     def __init__(self):
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+        self.beacon_seeker = ev3.BeaconSeeker(ev3.INPUT_4)
         assert self.left_motor.connected
         assert self.right_motor.connected
 
@@ -66,8 +67,23 @@ class Snatch3r(object):
         time.sleep(5.01)
         arm_motor.stop(stop_action=ev3.Motor.STOP_ACTION_BRAKE)
 
-    def beacon_seeker(self):
-        beacon_seeker =ev3.BeaconSeeker(ev3.OUTPUT_A)
-        beacon_seeker.run_forever(speed_sp=-900)
-        time.sleep(5.01)
-        beacon_seeker.stop(stop_action=ev3.Motor.STOP_ACTION_BRAKE)
+    def seekbeacon(self):
+        print("--------------------------------------------")
+        print(" Printing beacon seeking data")
+        print("--------------------------------------------")
+        ev3.Sound.speak("Printing beacon seeking").wait()
+        print(" Press the touch sensor to exit")
+
+        touch_sensor = ev3.TouchSensor()
+        assert touch_sensor
+        assert self.beacon_seeker
+
+        while not touch_sensor.is_pressed:
+            current_heading = self.beacon_seeker.heading(channel=1)
+            current_distance = self.beacon_seeker.distance
+            print("IR Heading = {}   Distance = {}".format(current_heading, current_distance))
+            time.sleep(0.5)
+
+        print("Goodbye!")
+        ev3.Sound.speak("Goodbye").wait()
+        return True
