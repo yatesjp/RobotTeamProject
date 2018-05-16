@@ -65,3 +65,9 @@ class Snatch3r(object):
         arm_motor.run_forever(speed_sp=-900)
         time.sleep(5.01)
         arm_motor.stop(stop_action=ev3.Motor.STOP_ACTION_BRAKE)
+
+    def beacon_seeker(self):
+        beacon_seeker =ev3.BeaconSeeker(ev3.OUTPUT_A)
+        beacon_seeker.run_forever(speed_sp=-900)
+        time.sleep(5.01)
+        beacon_seeker.stop(stop_action=ev3.Motor.STOP_ACTION_BRAKE)
