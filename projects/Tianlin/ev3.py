@@ -18,7 +18,6 @@ class MyDelegate(object):
     def __init__(self):
         self.robot = robo.Snatch3r()
         self.mqtt_client = None  # To be set later.
-        print('YYY')
 
     def arm_up(self):
         print("Arm up")

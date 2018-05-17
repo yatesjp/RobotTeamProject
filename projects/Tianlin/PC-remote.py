@@ -19,14 +19,8 @@ def main():
     left_speed_label = ttk.Label(main_frame, text="Left")
     left_speed_label.grid(row=0, column=0)
     left_speed_entry = ttk.Entry(main_frame, width=8)
-    left_speed_entry.insert(0, '600')
+    left_speed_entry.insert(0, '100')
     left_speed_entry.grid(row=1, column=0)
-
-    right_speed_label = ttk.Label(main_frame, text="Right")
-    right_speed_label.grid(row=0, column=2)
-    right_speed_entry = ttk.Entry(main_frame, width=8, justify=tkinter.RIGHT)
-    right_speed_entry.insert(0, '600')
-    right_speed_entry.grid(row=1, column=2)
 
     stop_button = ttk.Button(main_frame, text="Stop")
     stop_button.grid(row=3, column=1)
@@ -74,9 +68,6 @@ def main():
     seek_button = ttk.Button(main_frame, text="Seek")
     seek_button.grid(row=7, column=2)
     seek_button['command'] = (lambda: beaconseeker(mqtt_client, int(left_speed_entry.get())))
-
-    #
-    # seconds = current_heading/(speed*1.8)
 
     root.mainloop()
 
