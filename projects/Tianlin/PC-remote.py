@@ -182,8 +182,4 @@ def left_mouse_release(data):
     data.is_dragging = False
 
 
-
-
-
-
 main()
