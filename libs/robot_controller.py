@@ -19,7 +19,7 @@ import time
 class Snatch3r(object):
     """Commands for the Snatch3r robot that might be useful in many different programs."""
     
-    # TODO: Implement the Snatch3r class as needed when working the sandox exercises
+    # Done: Implement the Snatch3r class as needed when working the sandox exercises
     # (and delete these comments)
 
     def __init__(self):
@@ -97,3 +97,11 @@ class Snatch3r(object):
     def halt(self):
         self.left_motor.stop(stop_action = 'brake')
         self.right_motor.stop(stop_action = 'brake')
+
+    def goforward(self, lspeed, rspeed):
+        self.left_motor.run_forever(speedsp = lspeed)
+        self.right_motor.run_forever(speedsp = rspeed)
+
+    def goback(self, lspeed, rspeed):
+        self.left_motor.run_forever(speedsp = -1 * lspeed)
+        self.right_motor.run_forever(speedsp = -1 * rspeed)
