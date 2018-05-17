@@ -1,10 +1,11 @@
 import mqtt_remote_method_calls as com
 import robot_controller as robo
-import ev3dev as ev3
+import ev3dev.ev3 as ev3
 import time
 
 
 def main():
+    print('run')
     my_delegate = MyDelegate()
     mqtt_client = com.MqttClient(my_delegate)
     my_delegate.mqtt_client = mqtt_client
@@ -54,8 +55,9 @@ class MyDelegate(object):
     def shutdown(self):
         self.robot.shutdown()
 
-    def beaconseeker(self):
-        self.robot.beacon_seeker()
+    def beaconseeker(self, left_speed):
+        print('YESYES')
+        self.robot.seekbeacon(left_speed=left_speed)
 
     def loop_forever(self):
         self.running = True
@@ -68,3 +70,5 @@ class MyDelegate(object):
         if self.mqtt_client:
             self.mqtt_client.close()
         self.robot.shutdown()
+
+main()
