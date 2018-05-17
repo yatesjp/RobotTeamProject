@@ -67,6 +67,10 @@ class Snatch3r(object):
         time.sleep(5.01)
         arm_motor.stop(stop_action=ev3.Motor.STOP_ACTION_BRAKE)
 
+    def shutdown(self):
+        self.left_motor.stop_action()
+        self.right_motor.stop_action()
+
     def seekbeacon(self, left_speed):
         print("--------------------------------------------")
         print(" Printing beacon seeking data")
