@@ -56,25 +56,25 @@ class MyDelegate(object):
         print("Arm down")
         self.robot.arm_down()
 
-    # def motor_forward(self,left,right):
-    #     print("Motor Forward")
-    #     self.robot.left_motor.run_forever(speed_sp=left)
-    #     self.robot.right_motor.run_forever(speed_sp=right)
-    #
-    # def motor_left(self,left,right):
-    #     print("Motor Left")
-    #     self.robot.left_motor.run_forever(speed_sp=-left)
-    #     self.robot.right_motor.run_forever(speed_sp=right)
-    #
-    # def motor_right(self,left,right):
-    #     print("Motor Right")
-    #     self.robot.left_motor.run_forever(speed_sp=left)
-    #     self.robot.right_motor.run_forever(speed_sp=-right)
-    #
-    # def motor_back(self,left,right):
-    #     print("Motor Left")
-    #     self.robot.left_motor.run_forever(speed_sp=-left)
-    #     self.robot.right_motor.run_forever(speed_sp=-right)
+    def motor_forward(self,left,right):
+        print("Motor Forward")
+        self.robot.left_motor.run_forever(speed_sp=left)
+        self.robot.right_motor.run_forever(speed_sp=right)
+
+    def motor_left(self,left,right):
+        print("Motor Left")
+        self.robot.left_motor.run_forever(speed_sp=-left)
+        self.robot.right_motor.run_forever(speed_sp=right)
+
+    def motor_right(self,left,right):
+        print("Motor Right")
+        self.robot.left_motor.run_forever(speed_sp=left)
+        self.robot.right_motor.run_forever(speed_sp=-right)
+
+    def motor_back(self,left,right):
+        print("Motor Left")
+        self.robot.left_motor.run_forever(speed_sp=-left)
+        self.robot.right_motor.run_forever(speed_sp=-right)
 
     def motor_stop(self):
         print("Motor  Stop")

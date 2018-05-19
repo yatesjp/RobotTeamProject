@@ -19,7 +19,7 @@ import time
 class Snatch3r(object):
     """Commands for the Snatch3r robot that might be useful in many different programs."""
     
-    # TODO: Implement the Snatch3r class as needed when working the sandox exercises
+    # Done: Implement the Snatch3r class as needed when working the sandox exercises
     # (and delete these comments)
 
     def __init__(self):
@@ -71,3 +71,37 @@ class Snatch3r(object):
         beacon_seeker.run_forever(speed_sp=-900)
         time.sleep(5.01)
         beacon_seeker.stop(stop_action=ev3.Motor.STOP_ACTION_BRAKE)
+
+    def spinleft(self, lspeed, rspeed):
+        self.left_motor.run_forever(speed_sp = -1 * lspeed)
+        self.right_motor.run_forever(speed_sp = rspeed)
+
+    def spinright(self, lspeed, rspeed):
+        self.left_motor.run_forever(speed_sp = lspeed)
+        self.right_motor.run_forever(speed_sp = -1 * rspeed)
+
+    def loop_forever(self):
+        # This is a convenience method that I don't really recommend for most programs other than m5.
+        #   This method is only useful if the only input to the robot is coming via mqtt.
+        #   MQTT messages will still call methods, but no other input or output happens.
+        # This method is given here since the concept might be confusing.
+        self.running = True
+        while self.running:
+            time.sleep(0.1)  # Do nothing (except receive MQTT messages) until an MQTT message calls shutdown.
+
+    def shutdown(self):
+        # Modify a variable that will allow the loop_forever method to end. Additionally stop motors and set LEDs green.
+        # The most important part of this method is given here, but you should add a bit more to stop motors, etc.
+        self.running = False
+
+    def halt(self):
+        self.left_motor.stop(stop_action = 'brake')
+        self.right_motor.stop(stop_action = 'brake')
+
+    def goforward(self, lspeed, rspeed):
+        self.left_motor.run_forever(speedsp = lspeed)
+        self.right_motor.run_forever(speedsp = rspeed)
+
+    def goback(self, lspeed, rspeed):
+        self.left_motor.run_forever(speedsp = -1 * lspeed)
+        self.right_motor.run_forever(speedsp = -1 * rspeed)

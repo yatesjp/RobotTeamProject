@@ -3,13 +3,12 @@
 
 import tkinter
 from tkinter import ttk
-import ev3dev.ev3 as ev3
-import time
 import mqtt_remote_method_calls as com
 
 
 def main():
     mqtt_client = com.MqttClient()
+    mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
     root.title("MQTT Remote")
@@ -20,14 +19,8 @@ def main():
     left_speed_label = ttk.Label(main_frame, text="Left")
     left_speed_label.grid(row=0, column=0)
     left_speed_entry = ttk.Entry(main_frame, width=8)
-    left_speed_entry.insert(0, '600')
+    left_speed_entry.insert(0, '100')
     left_speed_entry.grid(row=1, column=0)
-
-    right_speed_label = ttk.Label(main_frame, text="Right")
-    right_speed_label.grid(row=0, column=2)
-    right_speed_entry = ttk.Entry(main_frame, width=8, justify=tkinter.RIGHT)
-    right_speed_entry.insert(0, '600')
-    right_speed_entry.grid(row=1, column=2)
 
     stop_button = ttk.Button(main_frame, text="Stop")
     stop_button.grid(row=3, column=1)
@@ -67,18 +60,14 @@ def main():
     e_button.grid(row=6, column=2)
     e_button['command'] = (lambda: quit_program(mqtt_client, True))
 
-    # draw_button = ttk.Button(main_frame, text="Draw")
-    # draw_button.grid(row=7, column=0)
+    draw_button = ttk.Button(main_frame, text="Draw")
+    draw_button.grid(row=7, column=0)
     # draw_button and '<Draw>' key
-    # draw_button['command'] = (lambda: drawIt())
+    draw_button['command'] = (lambda: drawIt())
 
     seek_button = ttk.Button(main_frame, text="Seek")
     seek_button.grid(row=7, column=2)
-    # draw_button and '<Draw>' key
-    seek_button['command'] = (lambda: seekbeacon())
-
-    #
-    # seconds = current_heading/(speed*1.8)
+    seek_button['command'] = (lambda: beaconseeker(mqtt_client, int(left_speed_entry.get())))
 
     root.mainloop()
 
@@ -126,36 +115,44 @@ def quit_program(mqtt_client, shutdown_ev3):
     exit()
 
 
-# def drawIt():
-#     pen_data = PenData()
-#     root1 = tkinter.Tk()
-#     draw_frame = ttk.Frame(root1, padding=5)
-#     draw_frame.grid()
-#
-#     instructions = 'Click the left mouse button to make circles,\n'
-#     instructions = instructions + 'drag the left mouse button to draw'
-#     label = ttk.Label(draw_frame, text=instructions)
-#     label.grid()
-#
-#     # Make a tkinter.Canvas on a Frame.
-#     # Note that Canvas is a tkinter (NOT a ttk) class.
-#     canvas = tkinter.Canvas(draw_frame, background='lightgray')
-#     canvas.grid()
-#
-#     # Make callbacks for mouse events.
-#     # canvas.bind('<Button-1>', lambda event: left_mouse_click(event))
-#     canvas.bind('<B1-Motion>',
-#                 lambda event: left_mouse_drag(event, pen_data))
-#     canvas.bind('<B1-ButtonRelease>',
-#                 lambda event: left_mouse_release(pen_data))  # @UnusedVariable
-#
-#     # Make a button to change the color.
-#     button = ttk.Button(draw_frame, text='Flip pen color')
-#     button.grid()
-#     button['command'] = lambda: flip_pen_color(pen_data)
-#
-#     root1.mainloop()
-#     return True
+def beaconseeker(mqtt_client, left_speed):
+    print("find beacon")
+    mqtt_client.send_message("beaconseeker", [left_speed])
+
+
+class PenData(object):
+    def __init__(self):
+        self.color = 'blue'
+        self.mouse_position_x = None
+        self.mouse_position_y = None
+        self.is_dragging = False
+
+
+def drawIt():
+    pen_data = PenData()
+    root1 = tkinter.Tk()
+    draw_frame = ttk.Frame(root1, padding=5)
+    draw_frame.grid()
+
+    instructions = 'Click the left mouse button to make circles,\n'
+    instructions = instructions + 'drag the left mouse button to draw'
+    label = ttk.Label(draw_frame, text=instructions)
+    label.grid()
+
+    # Make a tkinter.Canvas on a Frame.
+    # Note that Canvas is a tkinter (NOT a ttk) class.
+    canvas = tkinter.Canvas(draw_frame, background='lightgray')
+    canvas.grid()
+
+    # Make callbacks for mouse events.
+    # canvas.bind('<Button-1>', lambda event: left_mouse_click(event))
+    canvas.bind('<B1-Motion>',
+                lambda event: left_mouse_drag(event, pen_data))
+    canvas.bind('<B1-ButtonRelease>',
+                lambda event: left_mouse_release(pen_data))  # @UnusedVariable
+
+    root1.mainloop()
+    return True
 
 
 # def start_point():
@@ -166,54 +163,23 @@ def quit_program(mqtt_client, shutdown_ev3):
 #                        fill='green', width=3)
 
 
-# def left_mouse_drag(event, data):
-#     # data.mouse_position_x and _y keep track of the PREVIOUS mouse
-#     # position while we are dragging.
-#     canvas = event.widget
-#     if data.is_dragging:
-#         canvas.create_line(data.mouse_position_x, data.mouse_position_y,
-#                            event.x, event.y,
-#                            fill=data.color, width=5)
-#     else:
-#         data.is_dragging = True  # Start dragging
-#
-#     data.mouse_position_x = event.x
-#     data.mouse_position_y = event.y
-#
-#
-# def left_mouse_release(data):
-#     data.is_dragging = False
-#
-#
-# def flip_pen_color(data):
-#     if data.color == 'blue':
-#         data.color = 'red'
-#     else:
-#         data.color = 'blue'
+def left_mouse_drag(event, data):
+    # data.mouse_position_x and _y keep track of the PREVIOUS mouse
+    # position while we are dragging.
+    canvas = event.widget
+    if data.is_dragging:
+        canvas.create_line(data.mouse_position_x, data.mouse_position_y,
+                           event.x, event.y,
+                           fill=data.color, width=5)
+    else:
+        data.is_dragging = True  # Start dragging
+
+    data.mouse_position_x = event.x
+    data.mouse_position_y = event.y
 
 
-def seekbeacon():
-    print("--------------------------------------------")
-    print(" Printing beacon seeking data")
-    print("--------------------------------------------")
-    ev3.Sound.speak("Printing beacon seeking").wait()
-    print(" Press the touch sensor to exit")
-
-    touch_sensor = ev3.TouchSensor()
-    beacon_seeker = ev3.BeaconSeeker()
-    assert touch_sensor
-    assert beacon_seeker
-
-    while not touch_sensor.is_pressed:
-        current_heading = beacon_seeker.heading(channel=1)
-        current_distance = beacon_seeker.distance
-        print("IR Heading = {}   Distance = {}".format(current_heading, current_distance))
-        time.sleep(0.5)
-
-    print("Goodbye!")
-    ev3.Sound.speak("Goodbye").wait()
-    return True
-
+def left_mouse_release(data):
+    data.is_dragging = False
 
 
 main()
