@@ -87,11 +87,11 @@ def calcdistance(pt1, pt2):
 def rotate(angle, mqtt_client):
     speed = 600
     matcoeff = 0
-    rads = angle * matcoeff
+    rads = angle * matcoeff # matcoeff in time per radian
     if rads < 0:
-        mqtt_client.send_message("spinit", [rads, speed, -1 * speed])
+        mqtt_client.send_message("motion", [rads, speed, -1 * speed])
     elif rads > 0:
-        mqtt_client.send_message("spinit", [rads, -1 * speed, speed])
+        mqtt_client.send_message("motion", [rads, -1 * speed, speed])
 
     global orientation
     orientation = orientation + rads

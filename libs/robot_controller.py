@@ -109,8 +109,11 @@ class Snatch3r(object):
         self.left_motor.run_forever(speedsp = -1 * lspeed)
         self.right_motor.run_forever(speedsp = -1 * rspeed)
 
-    def motion(self, mqtt_client, speed):
-        self.left_motor.run_forever()
+    def motion(self, td, lspeed, rspeed):
+        self.left_motor.run_forever(speedsp=lspeed)
+        self.right_motor.run_forever(speedsp=rspeed)
+        time.sleep()
+        self.halt()
 
     def checkir(self):
         if self.ir_sensor.proximity < 10:
