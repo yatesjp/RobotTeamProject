@@ -86,7 +86,7 @@ def calcdistance(pt1, pt2):
 
 def rotate(angle, mqtt_client):
     speed = 600
-    matcoeff = 0
+    matcoeff = 0.86899
     rads = angle * matcoeff # matcoeff in time per radian
     if rads < 0:
         mqtt_client.send_message("motion", [rads, speed, -1 * speed])
