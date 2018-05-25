@@ -42,7 +42,6 @@ def main():
     mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
-
     main_frame = ttk.Frame(root, padding=5)
     main_frame.grid()
 
@@ -53,7 +52,6 @@ def main():
     global canvas
     canvas = tkinter.Canvas(main_frame, background='lightGray', height=600, width=600)
     canvas.grid()
-
     canvas.bind('<Button-1>', lambda event: left_mouse_click(event, mqtt_client))
 
     root.mainloop()
@@ -104,7 +102,7 @@ def receivecoords(degtrav):
     global currentpoint
     newx = currentpoint.x + math.cos(orientation) * disttrav
     newy = currentpoint.y + math.sin(orientation) * disttrav
-    if math.fabs(distance - disttrav) > 5
+    if math.fabs(distance - disttrav) > 5:
         newx2 = currentpoint.x + math.cos(orientation) * (disttrav + 60)
         newy2 = currentpoint.y + math.sin(orientation) * (disttrav + 60)
         canvas.create_oval(newx2 - 5, newy2 - 5, newx2 + 5, newy2 + 5, fill='black', width=1)
@@ -122,3 +120,5 @@ def standardize(x):
     if x > math.pi:
         x = -2 * math.pi + x
     return x
+
+main()
