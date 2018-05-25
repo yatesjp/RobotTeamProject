@@ -58,12 +58,13 @@ def main():
 
 
 def left_mouse_click(event, mqtt_client):
-    # canvas = event.widget
     destpoint = ThePoint(event.x, event.y)
     angle = calcangle(currentpoint.clone(), destpoint)
+    print(angle)
     rotate(angle, mqtt_client)
     global distance
     distance = calcdistance(currentpoint.clone(), destpoint)
+    print(distance)
     drive(distance, mqtt_client)
 
 
@@ -84,8 +85,8 @@ def calcdistance(pt1, pt2):
 
 def rotate(angle, mqtt_client):
     speed = 600
-    matcoeff = 0.86899
-    rads = angle * matcoeff # matcoeff in time per radian
+    matcoeff = 0.48479
+    rads = math.fabs(angle) * matcoeff # matcoeff in time per radian
     if rads < 0:
         mqtt_client.send_message("motion", [rads, speed, -1 * speed])
     elif rads > 0:

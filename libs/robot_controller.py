@@ -76,12 +76,12 @@ class Snatch3r(object):
         beacon_seeker.stop(stop_action=ev3.Motor.STOP_ACTION_BRAKE)
 
     def spinleft(self, lspeed, rspeed):
-        self.left_motor.run_forever(speed_sp = -1 * lspeed)
-        self.right_motor.run_forever(speed_sp = rspeed)
+        self.left_motor.run_forever(speed_sp=-1 * lspeed)
+        self.right_motor.run_forever(speed_sp=rspeed)
 
     def spinright(self, lspeed, rspeed):
-        self.left_motor.run_forever(speed_sp = lspeed)
-        self.right_motor.run_forever(speed_sp = -1 * rspeed)
+        self.left_motor.run_forever(speed_sp=lspeed)
+        self.right_motor.run_forever(speed_sp=-1 * rspeed)
 
     def loop_forever(self):
         # This is a convenience method that I don't really recommend for most programs other than m5.
@@ -98,21 +98,21 @@ class Snatch3r(object):
         self.running = False
 
     def halt(self):
-        self.left_motor.stop(stop_action = 'brake')
-        self.right_motor.stop(stop_action = 'brake')
+        self.left_motor.stop(stop_action='brake')
+        self.right_motor.stop(stop_action='brake')
 
     def goforward(self, lspeed, rspeed):
         self.left_motor.run_forever(speed_sp=lspeed)
         self.right_motor.run_forever(speed_sp=rspeed)
 
     def goback(self, lspeed, rspeed):
-        self.left_motor.run_forever(speed_sp = -1 * lspeed)
-        self.right_motor.run_forever(speed_sp = -1 * rspeed)
+        self.left_motor.run_forever(speed_sp=-1 * lspeed)
+        self.right_motor.run_forever(speed_sp=-1 * rspeed)
 
     def motion(self, td, lspeed, rspeed):
         self.left_motor.run_forever(speed_sp=lspeed)
         self.right_motor.run_forever(speed_sp=rspeed)
-        time.sleep()
+        time.sleep(td)
         self.halt()
 
     def checkir(self):
@@ -122,10 +122,10 @@ class Snatch3r(object):
     def onwarduntil(self, degrees):
         self.left_motor.run_to_rel_pos(position_sp=degrees, speed_sp=600, stop_action='brake')
         self.right_motor.run_to_rel_pos(position_sp=degrees, speed_sp=600, stop_action='brake')
-        pos1 = self.right_motor.position()
+        pos1 = self.right_motor.position
         pos2 = pos1
         while self.left_motor.is_running:
-            pos2 = self.right_motor.position()
+            pos2 = self.right_motor.position
             self.checkir()
 
         posit = pos2 - pos1
