@@ -6,8 +6,14 @@ a map.
 
 This portion specifically will call for the use of the canvas portion of tkinter to receive input from a user telling
 the robot where to go. It will attempt to go there, and if in doing so it encounter's some object, it will stop and
-lower its "paintbrush" to mark of the area both in real life and on the canvas, effectively creating a map for the
-user.
+mark off the area on the canvas, effectively creating a map for the user.
+
+The program is only partly functional, in that it will only make it to the point where movement occurs. It will not
+use the sensor and stop when it is supposed to. In addition, when it stops, it will not trigger a marker to be put on
+the canvas, as I could not figure it out before the due date.
+
+The code you'll see here is the attempt at getting it to do what I wanted to do, so you may see that I was close to
+achieving my goals, but could not quite debug it successfully.
 
 This locker number 38-20-6
 ME430-9
@@ -60,18 +66,18 @@ def main():
 def left_mouse_click(event, mqtt_client):
     destpoint = ThePoint(event.x, event.y)
     angle = calcangle(currentpoint.clone(), destpoint)
-    print(angle)
+    #print(angle)
     rotate(angle, mqtt_client)
     global distance
     distance = calcdistance(currentpoint.clone(), destpoint)
-    print(distance)
+    #print(distance)
     drive(distance, mqtt_client)
 
 
 def calcangle(frompoint, topoint):
     ydiff = topoint.y - frompoint.y
     xdiff = topoint.x - frompoint.x
-    angle = math.atan2(ydiff, xdiff) - orientation
+    angle = math.atan2(-1 * ydiff, xdiff) - orientation
     angle = standardize(angle)
     return angle
 
@@ -95,6 +101,7 @@ def rotate(angle, mqtt_client):
     global orientation
     orientation = orientation + angle
     orientation = standardize(orientation)
+    print(orientation)
 
 
 def receivecoords(degtrav):
