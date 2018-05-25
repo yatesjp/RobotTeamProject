@@ -25,8 +25,11 @@ class Snatch3r(object):
     def __init__(self):
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+        self.ir_sensor = ev3.InfraredSensor()
+        self.returner = None
         assert self.left_motor.connected
         assert self.right_motor.connected
+        assert self.ir_sensor.connected
 
     def forward(self, inches, speed=100, stop_action='brake'):
         degrees = inches * (360/4.2)
@@ -105,3 +108,22 @@ class Snatch3r(object):
     def goback(self, lspeed, rspeed):
         self.left_motor.run_forever(speedsp = -1 * lspeed)
         self.right_motor.run_forever(speedsp = -1 * rspeed)
+
+    def motion(self, mqtt_client, speed):
+        self.left_motor.run_forever()
+
+    def checkir(self):
+        if self.ir_sensor.proximity < 10:
+            self.halt()
+
+    def onwarduntil(self, degrees):
+        self.left_motor.run_to_rel_pos(position_sp=degrees, speed_sp=600, stop_action='brake')
+        self.right_motor.run_to_rel_pos(position_sp=degrees, speed_sp=600, stop_action='brake')
+        pos1 = self.right_motor.position()
+        pos2 = pos1
+        while self.left_motor.is_running:
+            pos2 = self.right_motor.position()
+            self.checkir()
+
+        posit = pos2 - pos1
+        self.returner.send_message('receivecoords', [posit])
