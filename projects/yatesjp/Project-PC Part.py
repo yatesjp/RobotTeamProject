@@ -107,7 +107,7 @@ def receivecoords(degtrav):
     if math.fabs(distance - disttrav) > 5
         newx2 = currentpoint.x + math.cos(orientation) * (disttrav + 60)
         newy2 = currentpoint.y + math.sin(orientation) * (disttrav + 60)
-        canvas.create_oval(newx2 - 5, newy2 - 5, newx2 + 5, newy2 + 5)
+        canvas.create_oval(newx2 - 5, newy2 - 5, newx2 + 5, newy2 + 5, fill='black', width=1)
     currentpoint = ThePoint(newx, newy)
 
 
