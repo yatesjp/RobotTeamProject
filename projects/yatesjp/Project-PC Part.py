@@ -34,7 +34,7 @@ class ThePoint(object):
 # The starting value of the robot
 currentpoint = ThePoint(300, 300)
 # The starting angle of the robot
-orientation = math.pi / 2
+orientation = 1 * math.pi / 2
 
 
 def main():
@@ -87,13 +87,13 @@ def rotate(angle, mqtt_client):
     speed = 600
     matcoeff = 0.48479
     rads = math.fabs(angle) * matcoeff # matcoeff in time per radian
-    if rads < 0:
+    if angle < 0:
         mqtt_client.send_message("motion", [rads, speed, -1 * speed])
-    elif rads > 0:
+    elif angle > 0:
         mqtt_client.send_message("motion", [rads, -1 * speed, speed])
 
     global orientation
-    orientation = orientation + rads
+    orientation = orientation + angle
     orientation = standardize(orientation)
 
 
